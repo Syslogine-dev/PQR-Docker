@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfiles/server.Dockerfile
+    container_name: pqr-server
+    ports:
+      - "2222:2222"
+    networks:
+      - pqr-network
+    env_file:
+      - server/config/server.env
+      - shared/shared.env
+    volumes:
+      - server/config:/etc/ssh:ro
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfiles/client.Dockerfile
+    container_name: pqr-client
+    networks:
+      - pqr-network
+    env_file:
+      - client/config/client.env
+      - shared/shared.env
+
+  keygen:
+    build:
+      context: .
+      dockerfile: Dockerfiles/keygen.Dockerfile
+    container_name: pqr-keygen
+    networks:
+      - pqr-network
+    env_file:
+      - shared/shared.env
+    volumes:
+      - keygen/keys:/output
+
+networks:
+  pqr-network:
+    driver: bridge
