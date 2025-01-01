@@ -30,7 +30,31 @@ Ensure that the scripts in the `scripts/` directory have executable permissions:
 chmod +x scripts/*.sh
 ```
 
-### 3. Build Docker Images
+### 3. Configure Docker Permissions
+
+To avoid permission errors while using Docker, follow these steps:
+
+1. Add your user to the Docker group:
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+
+2. Restart your terminal or log out and back in for the changes to take effect.
+
+3. Verify that Docker works without `sudo`:
+   ```bash
+   docker ps
+   ```
+   If this command runs without errors, your Docker setup is ready.
+
+4. Start the Docker daemon if it is not already running:
+   ```bash
+   sudo systemctl start docker
+   ```
+
+### 4. Build Docker Images
+
+Run the following command to build the required containers:
 
 ```bash
 bash scripts/build_containers.sh
@@ -40,13 +64,13 @@ This script automatically pulls the required code from:
 - **PQR-Tunnel**: [https://github.com/Syslogine-dev/PQR-Tunnel](https://github.com/Syslogine-dev/PQR-Tunnel)
 - **PQR-KeyCrafter**: [https://github.com/Syslogine-dev/PQR-KeyCrafter](https://github.com/Syslogine-dev/PQR-KeyCrafter)
 
-### 4. Start the Containers
+### 5. Start the Containers
 
 ```bash
 bash scripts/start_containers.sh
 ```
 
-### 5. Stop and Clean Up
+### 6. Stop and Clean Up
 
 ```bash
 bash scripts/stop_containers.sh
@@ -57,21 +81,28 @@ bash scripts/stop_containers.sh
 ## Troubleshooting
 
 ### 1. Permission Denied Errors
-If you encounter a `Permission Denied` error while running any script, follow these steps:
+If you encounter a `Permission Denied` error while running any script or using Docker, follow these steps:
 
-1. Grant executable permissions to the script:
+1. Ensure the script has executable permissions:
    ```bash
    chmod +x scripts/<script_name>.sh
    ```
 
-2. Re-run the script:
+2. Add your user to the Docker group:
    ```bash
-   bash scripts/<script_name>.sh
+   sudo usermod -aG docker $USER
    ```
 
-3. To grant permissions to all scripts at once:
+3. Restart your terminal or log out and back in.
+
+4. Start the Docker daemon if it is not running:
    ```bash
-   chmod +x scripts/*.sh
+   sudo systemctl start docker
+   ```
+
+5. Retry the script:
+   ```bash
+   bash scripts/<script_name>.sh
    ```
 
 ### 2. Docker Not Found
