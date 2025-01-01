@@ -7,10 +7,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential autoconf automake libtool make cmake ninja-build \
-    pkg-config libssl-dev zlib1g-dev git \
+    pkg-config libssl-dev zlib1g-dev git libc6-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone the PQR-Tunnel repository
+# Clone PQR-Tunnel repository
 RUN git clone https://github.com/Syslogine-dev/PQR-Tunnel.git /opt/pqr-tunnel
 
 # Run the client script
