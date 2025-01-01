@@ -10,11 +10,10 @@ services:
       - "2222:2222"
     networks:
       - pqr-network
-    env_file:
-      - server/config/server.env
-      - shared/shared.env
     volumes:
       - server/config:/etc/ssh:ro
+    environment:
+      - NEW_SSH_PORT=2222
 
   client:
     build:
@@ -23,9 +22,6 @@ services:
     container_name: pqr-client
     networks:
       - pqr-network
-    env_file:
-      - client/config/client.env
-      - shared/shared.env
 
   keygen:
     build:
@@ -34,8 +30,6 @@ services:
     container_name: pqr-keygen
     networks:
       - pqr-network
-    env_file:
-      - shared/shared.env
     volumes:
       - keygen/keys:/output
 

@@ -1,13 +1,14 @@
 # PQR-Docker
 
-This repository contains Docker configurations and scripts for deploying the PQR-Tunnel project in a containerized environment. It supports client, server, and key generation containers.
+This repository contains Docker configurations and scripts for deploying the PQR-Tunnel and PQR-KeyCrafter projects in a containerized environment. It supports client, server, and key generation containers, while maintaining modularity and independence.
 
 ---
 
 ## Features
 
 - **Multi-Container Setup**: Includes Docker Compose for running client, server, and keygen containers.
-- **Environment Variables**: Modular `.env` files for easy configuration.
+- **Modular Independence**: Designed to work independently of PQR-Tunnel and PQR-KeyCrafter repositories, making it easier to expand or adapt to other frameworks (e.g., VMware, Kubernetes).
+- **Environment Variables**: `.env` files for easy configuration of container settings.
 - **Automated Scripts**: Scripts for building, starting, and stopping containers.
 
 ---
@@ -17,7 +18,7 @@ This repository contains Docker configurations and scripts for deploying the PQR
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/<your-repo-name>/PQR-Docker.git
+git clone https://github.com/Syslogine-dev/PQR-Docker.git
 cd PQR-Docker
 ```
 
@@ -26,6 +27,10 @@ cd PQR-Docker
 ```bash
 bash scripts/build_containers.sh
 ```
+
+This script automatically pulls the required code from:
+- **PQR-Tunnel**: [https://github.com/Syslogine-dev/PQR-Tunnel](https://github.com/Syslogine-dev/PQR-Tunnel)
+- **PQR-KeyCrafter**: [https://github.com/Syslogine-dev/PQR-KeyCrafter](https://github.com/Syslogine-dev/PQR-KeyCrafter)
 
 ### 3. Start the Containers
 
@@ -43,20 +48,44 @@ bash scripts/stop_containers.sh
 
 ## Folder Structure
 
-- **`docker-compose.yml`**: Defines the multi-container setup.
-- **`Dockerfiles/`**: Contains individual Dockerfiles for client, server, and keygen.
-- **`config/`**: Stores `.env` files for container configuration.
-- **`scripts/`**: Includes scripts for managing Docker containers.
+```plaintext
+PQR-Docker/
+├── docker-compose.yml                # Docker Compose file for multi-container setup
+├── Dockerfiles/                      # Individual Dockerfiles for each service
+│   ├── client.Dockerfile
+│   ├── server.Dockerfile
+│   ├── keygen.Dockerfile
+├── config/                           # Configuration files
+│   ├── client.env
+│   ├── server.env
+│   ├── shared.env
+├── scripts/                          # Utility scripts for container management
+│   ├── build_containers.sh
+│   ├── start_containers.sh
+│   ├── stop_containers.sh
+└── README.md                         # Documentation
+```
+
+---
+
+## Project Dependencies
+
+The Docker containers rely on the following projects:
+- **PQR-Tunnel**: [https://github.com/Syslogine-dev/PQR-Tunnel](https://github.com/Syslogine-dev/PQR-Tunnel)  
+  Provides client and server scripts for setting up quantum-safe SSH tunnels.
+- **PQR-KeyCrafter**: [https://github.com/Syslogine-dev/PQR-KeyCrafter](https://github.com/Syslogine-dev/PQR-KeyCrafter)  
+  Provides tools for generating quantum-safe keys.
+
+Ensure these repositories remain updated to avoid issues during the container build process.
 
 ---
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
 
 ---
 
 ## License
 
-This project is licensed under [LICENSE_NAME]. See the `LICENSE` file for details.
-
+This project is licensed under the MIT License. See the `LICENSE` file for details.
