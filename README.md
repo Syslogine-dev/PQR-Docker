@@ -22,7 +22,15 @@ git clone https://github.com/Syslogine-dev/PQR-Docker.git
 cd PQR-Docker
 ```
 
-### 2. Build Docker Images
+### 2. Set Permissions for Scripts
+
+Ensure that the scripts in the `scripts/` directory have executable permissions:
+
+```bash
+chmod +x scripts/*.sh
+```
+
+### 3. Build Docker Images
 
 ```bash
 bash scripts/build_containers.sh
@@ -32,17 +40,74 @@ This script automatically pulls the required code from:
 - **PQR-Tunnel**: [https://github.com/Syslogine-dev/PQR-Tunnel](https://github.com/Syslogine-dev/PQR-Tunnel)
 - **PQR-KeyCrafter**: [https://github.com/Syslogine-dev/PQR-KeyCrafter](https://github.com/Syslogine-dev/PQR-KeyCrafter)
 
-### 3. Start the Containers
+### 4. Start the Containers
 
 ```bash
 bash scripts/start_containers.sh
 ```
 
-### 4. Stop and Clean Up
+### 5. Stop and Clean Up
 
 ```bash
 bash scripts/stop_containers.sh
 ```
+
+---
+
+## Troubleshooting
+
+### 1. Permission Denied Errors
+If you encounter a `Permission Denied` error while running any script, follow these steps:
+
+1. Grant executable permissions to the script:
+   ```bash
+   chmod +x scripts/<script_name>.sh
+   ```
+
+2. Re-run the script:
+   ```bash
+   bash scripts/<script_name>.sh
+   ```
+
+3. To grant permissions to all scripts at once:
+   ```bash
+   chmod +x scripts/*.sh
+   ```
+
+### 2. Docker Not Found
+If you see an error indicating Docker is not installed:
+
+1. Install Docker:
+   - [Docker Installation Guide](https://docs.docker.com/get-docker/)
+
+2. Verify the installation:
+   ```bash
+   docker --version
+   ```
+
+3. Ensure Docker Compose is also installed:
+   ```bash
+   docker-compose --version
+   ```
+
+4. Restart your terminal and retry the commands.
+
+### 3. Unable to Connect to the Docker Daemon
+If you see an error like `Cannot connect to the Docker daemon`:
+
+1. Ensure the Docker service is running:
+   ```bash
+   sudo systemctl start docker
+   ```
+
+2. Add your user to the `docker` group to avoid needing `sudo`:
+   ```bash
+   sudo usermod -aG docker $USER
+   ```
+
+3. Log out and back in for the group changes to take effect.
+
+4. Retry the command.
 
 ---
 
@@ -89,3 +154,4 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
+
